@@ -70,14 +70,23 @@ void print_train() {
 		for (int i = 0; i < length; i++) printf("#");
 		printf("\n");
 	}
+	printf("\n");
 }
 	
 void move_positions() {
 	int r = rand() % 100;
-	if (r <= 100 - prob) { --mc; ++num1; }
+	if (r <= 100 - prob) {
+		--mc;
+		++num1;
+	}
 	int r1 = rand() % 100;
-	if (turn % 2 == 1 && r1 <= prob) { --mz; ++num2; }
+	++turn;
+	if (turn % 2 == 1 && r1 <= prob) {
+		--mz;
+		++num2;
+	}
 }
+
 		
 void print_status() {
 	if (mc == 0) { printf("SUCCESS!\nÅ»Ãâ ¼º°ø!"); exit(0); }
