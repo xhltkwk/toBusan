@@ -29,6 +29,7 @@
 int length, prob, stamina;
 int mc, mz, mm, turn;
 int num1, num2;
+int c_aggro, m_aggro;
 
 void intro() { //인트로
     printf("게임을 시작합니다.\n");
@@ -114,13 +115,17 @@ void movePhase() { //이동 페이즈
     printfTrain(); // 열차값 상태 출력
 
     // 시민 이동
-    printf("시민 이동 (현재 위치: %d, 1: 왼쪽, 0: 이동 안 함)>>\n", mc);
-    int move;
-    scanf_s("%d", &move);
-    if (move == MOVE_LEFT) {
+    int r = rand() % 100;
+    if (r < (100 - prob)) {
         --mc;
+        c_aggro++;
+        printf("시민 이동 : 왼쪽으로 이동 (현재 위치 : %d\n", mc);
     }
-
+    else {
+        c_aggro = (c_aggro > 0) ? c_aggro - 1 : 0;
+        printf("시민 이동 : 제자리 대기 (현재 위치 : %d\n", mc);
+    }
+    
     // 좀비 이동
     int r = rand() % 100;
     if (r <= prob) {
