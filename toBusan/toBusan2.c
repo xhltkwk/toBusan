@@ -30,7 +30,7 @@ int length, prob, stamina;
 int mc, mz, mm, turn;
 int num1, num2;
 
-void initializeGame() {
+void intro() { //인트로
     printf("게임을 시작합니다.\n");
     printf("\n좀비에게서 탈출하세요!\n");
     printf("\n");
@@ -56,7 +56,7 @@ void initializeGame() {
     printf("\n");
 }
 
-void intro() {
+void printTrain() { //열차값 출력
     for (int j = 0; j < 2; j++) {
         if (j == 1) {
             printf("#");
@@ -74,7 +74,7 @@ void intro() {
     printf("\n");
 }
 
-void position() {
+void position() { //위치 이동 rand값
     int r = rand() % 100;
     if (r <= 100 - prob) {
         --mc;
@@ -88,7 +88,7 @@ void position() {
     }
 }
 
-void displayMove() {
+void outro() { //아웃트로
     if (mc == 0) {
         printf("SUCCESS!\n탈출 성공!");
         exit(0);
@@ -108,7 +108,7 @@ void displayMove() {
     printf("\n");
 }
 
-void movePhase() {
+void movePhase() { //이동 페이즈
     printf("<이동> 페이즈:\n");
 
     // 시민 이동
@@ -132,10 +132,10 @@ void movePhase() {
         --mm;
     }
 
-    intro();
+    printTrain();
 }
 
-void actionPhase() {
+void actionPhase() { //행동 페이즈
     printf("<행동> 페이즈:\n");
 
     // 시민 행동
@@ -159,7 +159,7 @@ void actionPhase() {
 }
 
 int main(void) {
-    initializeGame();
+    intro();
     srand(1);
     mc = length - 7;
     mz = length - 4;
@@ -169,7 +169,7 @@ int main(void) {
     num2 = 0;
 
     while (1) {
-        intro();
+        printTrain();
         movePhase();
         actionPhase();
     }
