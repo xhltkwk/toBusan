@@ -30,6 +30,7 @@ int length, prob, stamina;
 int mc, mz, mm, turn;
 int num1, num2;
 int c_aggro, m_aggro;
+int m_pull
 
 void intro() { //인트로
     printf("게임을 시작합니다.\n");
@@ -127,9 +128,18 @@ void movePhase() { //이동 페이즈
     }
     
     // 좀비 이동
-    int r = rand() % 100;
-    if (r <= prob) {
-        --mz;
+    if (turn % 2 == 0 && !m_pull) {
+        if (c_aggro >= m_aggro) {
+            --mz;
+            printf("좀비 이동 : 시민을 향해 이동 (현재 위치 : %d\n", mz);
+        }
+        else {
+            --mz;
+            printf("좀비 이동 : 마동석을 향해 이동 (현재 위치 : %d\n", mz);
+        }
+    }
+    else {
+        printf("좀비 이동 : 이동 불가능 (혅 위치 :%d\n", mz);
     }
 
     // 마동석 이동
