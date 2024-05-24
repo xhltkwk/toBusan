@@ -60,3 +60,17 @@ void print_status() {
 	if (turn % 2 == 1 && num2) printf("Zombie : %d -> %d\n", mz + 1, mz);
 	else printf("Zombie : stay %d\n", mz);
 }
+
+int main(void) {
+	srand(1);
+	intro();
+	mc = length - 7; mz = length - 4; mm = length - 3; turn = 0; num1 = 0; num2 = 0;
+	while (1) {
+		move_positions();
+		print_train();
+		print_status();
+		turn++;
+		Sleep(4000);
+	}
+	return 0;
+}
