@@ -7,7 +7,7 @@
 #define PROB_MAX 90
 
 int length, prob;
-int mc, mz, turn;
+int mc, mz, mm,turn;
 int num1, num2;
 
 void intro() {
@@ -29,36 +29,22 @@ void intro() {
 	}
 }
 
+void print_train() {
 	for (int j = 0; j < 2; j++) {
-
 		if (j == 1) {
-			printf("#"); //2줄 시작점 #
-			int c = length - 7, z = length - 4, m = length - 3;
+			printf("#");
 			for (int n = 0; n < length - 2; n++) {
-				if (j == 1 && n == c) {
-					printf("C"); // 시민 출력
-				}
-				else if (j == 1 && n == z) {
-					printf("Z"); //좀비 출력
-				}
-				else if (j == 1 && n == m) {
-					printf("M"); // 마동석 출력
-				}
-				else {
-					printf(" "); // 빈칸 출력
-				}
+				if (n == mc) printf("C");
+				else if (n == mz) printf("Z");
+				else if (n == mm) printf("M");
+				else printf(" ");
 			}
-			printf("#\n"); // 2줄 마지막 #
+			printf("#\n");
 		}
-
-		for (int i = 0; i < length; i++) {
-			printf("#"); //3줄 출력
-		}
+		for (int i = 0; i < length; i++) printf("#");
 		printf("\n");
 	}
-	printf("\n");
-	Sleep(1000);
-	srand(1);
+}
 	
 	while (1) { //시민이동
 		int r = rand() % 100;
