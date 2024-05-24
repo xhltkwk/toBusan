@@ -119,6 +119,13 @@ void movePhase() {
 		--mc;
 	}
 
+	// 좀비 이동
+	int r = rand() % 100;
+	if (r <= prob) {
+		--mz;
+	}
+
+
 
 int main(void) {
 	srand(1);
