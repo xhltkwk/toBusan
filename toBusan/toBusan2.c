@@ -118,12 +118,16 @@ void movePhase() { //이동 페이즈
     // 시민 이동
     int r = rand() % 100;
     if (r < (100 - prob)) {
-        --mc;
-        c_aggro++;
+        if (c_aggro < AGGRO_MAX) {
+            --mc;
+            c_aggro++;
+        }
         printf("시민 이동: 왼쪽으로 이동 (현재 위치: %d)\n", mc);
     }
     else {
-        c_aggro = (c_aggro > 0) ? c_aggro - 1 : 0;
+        if (c_aggro > AGGRO_MIN) {
+            c_aggro--;
+        }
         printf("시민 이동: 제자리 대기 (현재 위치: %d)\n", mc);
     }
 
@@ -154,7 +158,6 @@ void movePhase() { //이동 페이즈
         m_aggro = (m_aggro > 0) ? m_aggro - 1 : 0;
     }
 
-    // 상태 출력
     printTrain();
 }
 
