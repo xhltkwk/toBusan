@@ -133,16 +133,18 @@ void movePhase() { //이동 페이즈
 
     // 좀비 이동
     if (turn % 2 == 0 && !m_pull_success) {
-        if (c_aggro >= m_aggro) {
-            --mz;
-            printf("좀비 이동: 시민을 향해 이동 (현재 위치: %d)\n", mz);
+        if (mz - 1 != mc && mz - 1 != mm) {
+            if (c_aggro >= m_aggro) {
+                --mz;
+                printf("좀비 이동: 시민을 향해 이동 (현재 위치: %d)\n", mz);
+            }else {
+                --mz;
+                printf("좀비 이동: 마동석을 향해 이동 (현재 위치: %d)\n", mz);
+            }
+        } else {
+            printf("좀비 이동: 이동하지 않음 (현재 위치: %d)\n", mz);
         }
-        else {
-            --mz;
-            printf("좀비 이동: 마동석을 향해 이동 (현재 위치: %d)\n", mz);
-        }
-    }
-    else {
+    }else {
         printf("좀비 이동: 이동 불가능 (현재 위치: %d)\n", mz);
     }
 
