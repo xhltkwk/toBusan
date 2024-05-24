@@ -153,11 +153,15 @@ void movePhase() { //이동 페이즈
     int move;
     scanf_s("%d", &move);
     if (move == MOVE_LEFT) {
-        --mm;
-        m_aggro++;
-    }
-    else {
-        m_aggro = (m_aggro > 0) ? m_aggro - 1 : 0;
+        if (m_aggro < AGGRO_MAX) {
+            --mm;
+            m_aggro++;
+        }
+        
+    }else {
+        if (m_aggro > AGGRO_MIN) {
+            m_aggro--;
+        }
     }
 
     printTrain();
