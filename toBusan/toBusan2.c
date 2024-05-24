@@ -6,8 +6,11 @@
 #define PROB_MIN 10// 움직일 확률
 #define PROB_MAX 90
 
-int main(void) {
-	int length, prob;
+int length, prob;
+int mc, mz, turn;
+int num1, num2;
+
+void intro() {
 	printf("게임을 시작합니다.\n");
 	Sleep(1000);
 	printf("\n");
@@ -20,15 +23,12 @@ int main(void) {
 	scanf_s("%d", &prob);
 	Sleep(1000);
 	printf("\n");
-	if (length < LEN_MIN || length>LEN_MAX) {
-		printf("길이를 잘못 입력하셨습니다.\n게임을 다시 시작해주세요.\n");
-		exit(1);
-		//프로그램 종료
-	}
-	if (prob < PROB_MIN || prob>PROB_MAX) {
-		printf("확률을 잘못 입력하셨습니다.\n게임을 다시 시작해주세요.\n");
+	if (length < LEN_MIN || length > LEN_MAX || prob < PROB_MIN || prob > PROB_MAX) {
+		printf("입력값이 잘못되었습니다.\n게임을 다시 시작해주세요.\n");
 		exit(1);
 	}
+}
+
 	for (int j = 0; j < 2; j++) {
 
 		if (j == 1) {
@@ -59,8 +59,7 @@ int main(void) {
 	printf("\n");
 	Sleep(1000);
 	srand(1);
-	int mc = length - 7, mz = length - 4, mm = length - 3, turn = 0;
-	int num1 = 0, num2 = 0;
+	
 	while (1) { //시민이동
 		int r = rand() % 100;
 		if (r <= 100 - prob) {
