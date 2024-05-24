@@ -88,13 +88,26 @@ void move_positions() {
 }
 
 		
-void print_status() {
-	if (mc == 0) { printf("SUCCESS!\nÅ»Ãâ ¼º°ø!"); exit(0); }
-	if (mc == mz - 1) { printf("GAME OVER\n½Ã¹ÎÀÌ Á»ºñ¿¡°Ô ¸ÔÇû½À´Ï´Ù.!"); exit(0); }
-	printf("Citizen : %d -> %d\n", mc + 1, mc);
-	if (turn % 2 == 1 && num2) printf("Zombie : %d -> %d\n", mz + 1, mz);
-	else printf("Zombie : stay %d\n", mz);
+void outro() {
+	if (mc == 0) {
+		printf("SUCCESS!\nÅ»Ãâ ¼º°ø!");
+		exit(0);
+	}
+	if (mc == mz - 1) {
+		printf("GAME OVER\n½Ã¹ÎÀÌ Á»ºñ¿¡°Ô ¸ÔÇû½À´Ï´Ù.!");
+		exit(0);
+	}
+	printf("Citizen : %d -> %d (aggro: 1)\n", mc + 1, mc);
+	if (turn % 2 == 1 && num2) {
+		printf("Zombie : %d -> %d\n", mz + 1, mz);
+	}
+	else {
+		printf("Zombie : stay %d\n", mz);
+	}
+	printf("madongseok: stay %d (aggro: 1, stamina: %d)\n", mm, stamina);
+	printf("\n");
 }
+
 
 int main(void) {
 	srand(1);
