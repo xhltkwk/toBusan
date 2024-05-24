@@ -27,27 +27,32 @@
 #define ACTION_PROVOKE 1
 #define ACTION_PULL 2
 
-int length, prob;
+int length, prob,stamina;
 int mc, mz, mm,turn;
 int num1, num2;
 
 void intro() {
 	printf("게임을 시작합니다.\n");
-	Sleep(1000);
 	printf("\n");
 	printf("좀비에게서 탈출하세요!\n");
-	Sleep(1000);
 	printf("\n");
-	printf("train Length(15~50)>>\n");
-	scanf_s("%d", &length);
-	printf("percentile probability 'p'(10~90)>>\n");
-	scanf_s("%d", &prob);
-	Sleep(1000);
+	do{
+		printf("train Length(15~50)>>\n");
+		scanf_s("%d", &length);
+	} while (length < LEN_MIN || length > LEN_MAX);
+
+	do {
+		printf("madongseok stamina(0~5)>>\n");
+		scanf_s("%d", &stamina);
+	} while (stamina < STM_MIN || stamina >STM_MAX);
+
+	do {
+		printf("percentile probability 'p'(10~90)>>\n");
+		scanf_s("%d", &prob);
+
+	} while (prob < PROB_MIN || prob > PROB_MAX);
+
 	printf("\n");
-	if (length < LEN_MIN || length > LEN_MAX || prob < PROB_MIN || prob > PROB_MAX) {
-		printf("입력값이 잘못되었습니다.\n게임을 다시 시작해주세요.\n");
-		exit(1);
-	}
 }
 
 void print_train() {
