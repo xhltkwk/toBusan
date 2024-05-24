@@ -108,6 +108,17 @@ void outro() {
 	printf("\n");
 }
 
+void movePhase() {
+	printf("<이동> 페이즈:\n");
+
+	// 시민 이동
+	printf("시민 이동 (현재 위치: %d, 1: 왼쪽, 0: 이동 안 함)>>\n", mc);
+	int move;
+	scanf_s(%d, &move);
+	if (move == MOVE_LEFT) {
+		--mc;
+	}
+
 
 int main(void) {
 	srand(1);
