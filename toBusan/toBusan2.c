@@ -111,6 +111,8 @@ void outro() { //아웃트로
 void movePhase() { //이동 페이즈
     printf("<이동> 페이즈:\n");
 
+    printfTrain(); // 열차값 상태 출력
+
     // 시민 이동
     printf("시민 이동 (현재 위치: %d, 1: 왼쪽, 0: 이동 안 함)>>\n", mc);
     int move;
