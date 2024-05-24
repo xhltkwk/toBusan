@@ -46,73 +46,17 @@ void print_train() {
 	}
 }
 	
-	while (1) { //시민이동
-		int r = rand() % 100;
-		if (r <= 100 - prob) {
-			--mc;
-			++num1;
-		}
-		int r1 = rand() % 100; //좀비이동
-		++turn;
-		if (turn % 2 == 1) {
-			if (r1 <= prob) {
-				--mz;
-				++num2;
-			}
-		}
-		//만약 turn이 홀수가 되면 좀비가 움직인다
-		for (int j = 0; j < 2; j++) {
-			if (j == 1) {
-				printf("#"); //2줄 시작점 #
-				for (int n = 0; n < length - 2; n++) {
-					if (j == 1 && n == mc) {
-						printf("C"); // 시민 출력
-					}
-					else if (j == 1 && n == mz) {
-						printf("Z"); //좀비 출력
-					}
-					else if (j == 1 && n == mm) {
-						printf("M"); // 마동석 출력
-					}
-					else {
-						printf(" "); // 빈칸 출력
-					}
-				}
-				printf("#\n"); // 2줄 마지막 #
-			}
-			for (int i = 0; i < length; i++) {
-				printf("#"); //3줄 출력
-			}
-			printf("\n");
-		}
-		if (mc == 0) {
-			printf("SUCCESS!\n");
-			printf("탈출 성공!");
-			break;
-		}
-		if (mc == mz - 1) {
-			printf("GAME OVER\n");
-			printf("시민이 좀비에게 먹혔습니다.!");
-			break;
-		}
-		if (r <= 100 - prob) {
-			printf("Citizen : %d -> %d\n", mc + 1, mc);
-		}
-		else {
-			printf("Citizen : stay %d\n", mc);
-		}
-		if (turn % 2 == 1)//좀비가 움직일때
-			if (num2) {
-				printf("Zombie : %d -> %d\n", mz + 1, mz);
-			}
-			else {
-				printf("Zombie : stay %d\n", mz);
-			}
-		else {
-			printf("Zombie : stay %d (cannot move)\n", mz);
-		}
-		printf("\n");
-		Sleep(4000);
-	}
-	return 0;
+void move_positions() {
+	int r = rand() % 100;
+	if (r <= 100 - prob) { --mc; ++num1; }
+	int r1 = rand() % 100;
+	if (turn % 2 == 1 && r1 <= prob) { --mz; ++num2; }
+}
+		
+void print_status() {
+	if (mc == 0) { printf("SUCCESS!\n탈출 성공!"); exit(0); }
+	if (mc == mz - 1) { printf("GAME OVER\n시민이 좀비에게 먹혔습니다.!"); exit(0); }
+	printf("Citizen : %d -> %d\n", mc + 1, mc);
+	if (turn % 2 == 1 && num2) printf("Zombie : %d -> %d\n", mz + 1, mz);
+	else printf("Zombie : stay %d\n", mz);
 }
