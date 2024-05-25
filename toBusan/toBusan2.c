@@ -131,16 +131,16 @@ void movePhase() { //이동 페이즈
 				printf("zombie : %d -> %d\n",mz+1, mz);
 			}
 			else {
-				--mz;
-				printf("좀비 이동: 마동석을 향해 이동 (현재 위치: %d)\n", mz);
+				++mz;
+				printf("zombie : %d -> %d\n",mz-1, mz);
 			}
 		}
 		else {
-			printf("좀비 이동: 이동하지 않음 (현재 위치: %d)\n", mz);
+			printf("zombie : stay %d \n", mz);
 		}
 	}
 	else {
-		printf("좀비 이동: 이동 불가능 (현재 위치: %d)\n", mz);
+		printf("zombie : stay %d\n", mz);
 	}
 
 	// 마동석 이동
