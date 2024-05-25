@@ -33,187 +33,184 @@ int c_aggro, m_aggro;
 int m_pull_success;
 
 void intro() { //인트로
-    printf("게임을 시작합니다.\n");
-    printf("\n좀비에게서 탈출하세요!\n");
-    printf("\n");
+	printf("게임을 시작합니다.\n");
+	printf("\n좀비에게서 탈출하세요!\n");
+	printf("\n");
 
-    do {
-        printf("train Length(15~50)>>\n");
-        scanf_s("%d", &length);
+	do {
+		printf("train Length(15~50)>>\n");
+		scanf_s("%d", &length);
 
-    } while (length < LEN_MIN || length > LEN_MAX);
+	} while (length < LEN_MIN || length > LEN_MAX);
 
-    do {
-        printf("madongseok stamina(0~5)>>\n");
-        scanf_s("%d", &stamina);
+	do {
+		printf("madongseok stamina(0~5)>>\n");
+		scanf_s("%d", &stamina);
 
-    } while (stamina < STM_MIN || stamina > STM_MAX);
+	} while (stamina < STM_MIN || stamina > STM_MAX);
 
-    do {
-        printf("percentile probability 'p'(10~90)>>\n");
-        scanf_s("%d", &prob);
+	do {
+		printf("percentile probability 'p'(10~90)>>\n");
+		scanf_s("%d", &prob);
 
-    } while (prob < PROB_MIN || prob > PROB_MAX);
+	} while (prob < PROB_MIN || prob > PROB_MAX);
 
-    printf("\n");
+	printf("\n");
 }
 
 void printTrain() { //열차값 출력
-    for (int j = 0; j < 2; j++) {
-        if (j == 1) {
-            printf("#");
-            for (int n = 0; n < length - 2; n++) {
-                if (n == mc) printf("C");
-                else if (n == mz) printf("Z");
-                else if (n == mm) printf("M");
-                else printf(" ");
-            }
-            printf("#\n");
-        }
-        for (int i = 0; i < length; i++) printf("#");
-        printf("\n");
-    }
-    printf("\n");
-}
-
-void position() { //위치 이동 rand값
-    int r = rand() % 100;
-    if (r <= 100 - prob) {
-        --mc;
-        ++num1;
-    }
-    int r1 = rand() % 100;
-    ++turn;
-    if (turn % 2 == 1 && r1 <= prob) {
-        --mz;
-        ++num2;
-    }
+	for (int j = 0; j < 2; j++) {
+		if (j == 1) {
+			printf("#");
+			for (int n = 0; n < length - 2; n++) {
+				if (n == mc) printf("C");
+				else if (n == mz) printf("Z");
+				else if (n == mm) printf("M");
+				else printf(" ");
+			}
+			printf("#\n");
+		}
+		for (int i = 0; i < length; i++) printf("#");
+		printf("\n");
+	}
+	printf("\n");
 }
 
 void outro() { //아웃트로
-    if (mc == 0) {
-        printf("SUCCESS!\n탈출 성공!");
-        exit(0);
-    }
-    if (mc == mz - 1) {
-        printf("GAME OVER\n시민이 좀비에게 먹혔습니다.!");
-        exit(0);
-    }
-    printf("Citizen : %d -> %d (aggro: %d)\n", mc + 1, mc, c_aggro);
-    if (turn % 2 == 1 && num2) {
-        printf("Zombie : %d -> %d\n", mz + 1, mz);
-    }
-    else {
-        printf("Zombie : stay %d\n", mz);
-    }
-    printf("madongseok: stay %d (aggro: %d, stamina: %d)\n", mm, m_aggro, stamina);
-    printf("\n");
+	if (mc == 0) {
+		printf("SUCCESS!\n탈출 성공!");
+		exit(0);
+	}
+	if (mc == mz - 1) {
+		printf("GAME OVER\n시민이 좀비에게 먹혔습니다.!");
+		exit(0);
+	}
+	printf("Citizen : %d -> %d (aggro: %d)\n", mc + 1, mc, c_aggro);
+	if (turn % 2 == 1 && num2) {
+		printf("Zombie : %d -> %d\n", mz + 1, mz);
+	}
+	else {
+		printf("Zombie : stay %d\n", mz);
+	}
+	printf("madongseok: stay %d (aggro: %d, stamina: %d)\n", mm, m_aggro, stamina);
+	printf("\n");
 }
 
 void movePhase() { //이동 페이즈
-    printf("<이동> 페이즈:\n");
+	printf("<이동> 페이즈:\n");
 
-    printTrain(); // 열차값 상태 출력
+	printTrain(); // 열차값 상태 출력
 
-    // 시민 이동
-    int r = rand() % 100;
-    if (r < (100 - prob)) {
-        if (c_aggro < AGGRO_MAX) {
-            --mc;
-            c_aggro++;
-        }
-        printf("시민 이동: 왼쪽으로 이동 (현재 위치: %d)\n", mc);
-    }
-    else {
-        if (c_aggro > AGGRO_MIN) {
-            c_aggro--;
-        }
-        printf("시민 이동: 제자리 대기 (현재 위치: %d)\n", mc);
-    }
+	// 시민 이동
+	int r = rand() % 100;
+	if (r < (100 - prob)) {
+		--mc;
+		if (c_aggro < AGGRO_MAX) {
+			c_aggro++;
+			printf("citizen: %d -> %d (aggro : %d -> %d)\n", mc + 1, mc, c_aggro - 1, c_aggro);
+		}
+		else if (c_aggro == AGGRO_MAX) {
+			printf("citizen : %d -> %d (aggro ; %d)\n", mc + 1, mc, c_aggro);
+		}
+	}
+	else {
+		if (c_aggro > AGGRO_MIN) {
+			c_aggro--;
+			printf("citizen : %d -> %d (aggro : %d -> %d)\n", mc + 1, mc, c_aggro - 1, c_aggro);
+		}
+		else {
+			printf("ctizen : %d -> %d (aggro : %d)\n", mc + 1, mc, c_aggro);
+		}
+	}
 
-    // 좀비 이동
-    if (turn % 2 == 0 && !m_pull_success) {
-        if (mz - 1 != mc && mz - 1 != mm) {
-            if (c_aggro >= m_aggro) {
-                --mz;
-                printf("좀비 이동: 시민을 향해 이동 (현재 위치: %d)\n", mz);
-            }else {
-                --mz;
-                printf("좀비 이동: 마동석을 향해 이동 (현재 위치: %d)\n", mz);
-            }
-        } else {
-            printf("좀비 이동: 이동하지 않음 (현재 위치: %d)\n", mz);
-        }
-    }else {
-        printf("좀비 이동: 이동 불가능 (현재 위치: %d)\n", mz);
-    }
+	// 좀비 이동
+	if (turn % 2 == 0 && !m_pull_success) {
+		if (mz - 1 != mc && mz - 1 != mm) {
+			if (c_aggro >= m_aggro) {
+				--mz;
+				printf("zombie : %d -> %d\n",mz+1, mz);
+			}
+			else {
+				--mz;
+				printf("좀비 이동: 마동석을 향해 이동 (현재 위치: %d)\n", mz);
+			}
+		}
+		else {
+			printf("좀비 이동: 이동하지 않음 (현재 위치: %d)\n", mz);
+		}
+	}
+	else {
+		printf("좀비 이동: 이동 불가능 (현재 위치: %d)\n", mz);
+	}
 
-    // 마동석 이동
-    printf("마동석 이동 (현재 위치: %d, 1: 왼쪽, 0: 이동 안 함)>>\n", mm);
-    int move;
-    scanf_s("%d", &move);
-    if (move == MOVE_LEFT) {
-        if (m_aggro < AGGRO_MAX) {
-            --mm;
-            m_aggro++;
-        }
-        
-    }else {
-        if (m_aggro > AGGRO_MIN) {
-            m_aggro--;
-        }
-    }
+	// 마동석 이동
+	printf("마동석 이동 (현재 위치: %d, 1: 왼쪽, 0: 이동 안 함)>>\n", mm);
+	int move;
+	scanf_s("%d", &move);
+	if (move == MOVE_LEFT) {
+		if (m_aggro < AGGRO_MAX) {
+			--mm;
+			m_aggro++;
+		}
+	}
+	else {
+		if (m_aggro > AGGRO_MIN) {
+			m_aggro--;
+		}
+	}
+	printf("마동석 이동: %s (현재 위치: %d, aggro: %d, stamina: %d)\n", move == MOVE_LEFT ? "왼쪽으로 이동" : "제자리 대기", mm, m_aggro, stamina);
 
-    printTrain();
+	// 상태 출력
+	printTrain();
 }
 
 void actionPhase() { //행동 페이즈
-    printf("<행동> 페이즈:\n");
+	printf("<행동> 페이즈:\n");
 
-    // 시민 행동
-    printf("시민 행동: 시민은 아무것도 하지 않습니다.\n");
+	// 시민 행동
+	printf("시민 행동: 시민은 아무것도 하지 않습니다.\n");
 
-    // 좀비 행동
-    printf("좀비 행동: 좀비는 아무도 공격하지 않았습니다.\n");
+	// 좀비 행동
+	printf("좀비 행동: 좀비는 아무도 공격하지 않았습니다.\n");
 
-    // 마동석 행동
-    printf("마동석 행동 (0: 휴식, 1: 도발, 2: 붙들기)>>\n");
-    int action;
-    scanf_s("%d", &action);
-    if (action == ACTION_REST) {
-        printf("마동석이 휴식을 취합니다...\n");
-    }
-    else if (action == ACTION_PROVOKE) {
-        printf("마동석이 도발합니다...\n");
-    }
-    else if (action == ACTION_PULL) {
-        printf("마동석이 좀비를 붙듭니다...\n");
-        m_pull_success = 1;
-    }
-    else {
-        m_pull_success = 0;
-    }
+	// 마동석 행동
+	printf("마동석 행동 (0: 휴식, 1: 도발, 2: 붙들기)>>\n");
+	int action;
+	scanf_s("%d", &action);
+	if (action == ACTION_REST) {
+		printf("마동석이 휴식을 취합니다...\n");
+	}
+	else if (action == ACTION_PROVOKE) {
+		printf("마동석이 도발합니다...\n");
+	}
+	else if (action == ACTION_PULL) {
+		printf("마동석이 좀비를 붙듭니다...\n");
+		m_pull_success = 1;
+	}
+	else {
+		m_pull_success = 0;
+	}
 
-    printf("\n");
+	printf("\n");
 }
 
 int main(void) {
-    intro();
-    srand(1);
-    mc = length - 7;
-    mz = length - 4;
-    mm = length - 3;
-    turn = 0;
-    num1 = 0;
-    num2 = 0;
-    c_aggro = 0;
-    m_aggro = 0;
-    m_pull_success = 0;
+	intro();
+	srand(1);
+	mc = length - 7;
+	mz = length - 4;
+	mm = length - 3;
+	turn = 0;
+	num1 = 0;
+	num2 = 0;
+	c_aggro = 0;
+	m_aggro = 0;
+	m_pull_success = 0;
 
-    while (1) {
-        movePhase();
-        actionPhase();
-        turn++;
-    }
-    return 0;
+	while (1) {
+		movePhase();
+		actionPhase();
+		turn++;
+	}
+	return 0;
 }
