@@ -82,7 +82,7 @@ void outro() { //아웃트로
 		exit(0);
 	}
 	if (mc == mz - 1) {
-		printf("GAME OVER\n시민이 좀비에게 먹혔습니다.!");
+		printf("GAME OVER! citizen dead...");
 		exit(0);
 	}
 	printf("Citizen : %d -> %d (aggro: %d)\n", mc + 1, mc, c_aggro);
@@ -158,7 +158,7 @@ void movePhase() { //이동 페이즈
 			m_aggro--;
 		}
 	}
-	printf("madongseok: stay %d(aggrp: %d -> %d, stamina : %d)\n", mm, m_aggro + 1, m_aggro, stamina);
+	printf("madongseok: stay %d(aggro: %d -> %d, stamina : %d)\n", mm, m_aggro + 1, m_aggro, stamina);
 	printf("\n");
 	printf("citizen does nothing.\n");
 
@@ -192,25 +192,28 @@ void actionPhase() { //행동 페이즈
 		}
 	}
 	if (attack == ATK_NONE) {
+		printf("citizen does nothing\n");
 		printf("zombie attacked nobody.\n");
 	}
 	else if (attack == ATK_CITIZEN) {
-		printf("zombie attacked the citizen");
+		printf("citizen does nothing\n");
 		printf("GAME OVER! citizen dead...");
 		exit(0);
 	}
 	else if (attack == ATK_DONGSEOK) {
-		printf("zombie attacked Madongseok!\n");
+		printf("citizen does nothing\n");
+		printf("zombie attacked madongseok (aggro: %d vs %d, madongseok stamina: %d -> %d)\n",c_aggro,m_aggro,stamina+1,stamina);
 		stamina--;
 		if (stamina == STM_MIN) {
 			printf("GAME OVER! madongseok dead...");
 			exit(0);
+
 		}
 	}
 
-
 	// 마동석 행동
-	printf("madongseok action (0: rest, 1: provoke)>>\n");
+	printf("madongseok action (0. rest, 1. provoke, 2. pull)>>\n");
+	printf("\n");
 	int action;
 	scanf_s("%d", &action);
 	if (action == ACTION_REST) {
@@ -224,9 +227,25 @@ void actionPhase() { //행동 페이즈
 		printf("madongseok: %d (aggro: %d -> %d, stamina: %d -> %d)\n", mm, m_aggro + 1, m_aggro, stamina - 1, stamina);
 	}
 	else if (action == ACTION_PROVOKE) {
+		int p_aggro = m_aggro;
 		m_aggro = AGGRO_MAX;
 		printf("madongseok provoked zombie...\n");
-		printf("madongseok: %d (aggro: %d -> %d, stamina: %d)\n", mm, AGGRO_MIN, m_aggro, stamina);
+		printf("madongseok: %d (aggro: %d -> %d, stamina: %d)\n", mm, p_aggro, m_aggro, stamina);
+	}
+	else if (action == ACTION_PULL) {
+		m_aggro += 2;
+		stamina--;
+		int r = rand() % 100;
+		if (r < (100 - prob)) {
+			m_pull = 1;
+			printf("madongseok pulled zombie... Next turn, it can't move\n");
+			printf("madongseok: %d (aggro: %d -> %d, stamina: %d -> %d", mm, m_aggro - 2, stamina + 1, stamina);
+		}
+		else {
+			m_pull = 0;
+			printf("madongseok failed to pull zombie\n");
+			printf("madongseok: %d (aggro: %d -> %d, stamina: %d -> %d", mm, m_aggro - 2, stamina + 1, stamina);
+		}
 	}
 
 	// 상태 출력
