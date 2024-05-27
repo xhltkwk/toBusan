@@ -204,7 +204,7 @@ void actionPhase() { //행동 페이즈
 	else if (attack == ATK_DONGSEOK) {
 		printf("zombie attacked Madongseok!\n");
 		stamina--;
-		if (stamina == 0) {
+		if (stamina == STM_MIN) {
 			printf("GAME OVER! madongseok dead...");
 			exit(0);
 		}
