@@ -143,10 +143,13 @@ void movePhase() { //이동 페이즈
 	}
 
 	// 마동석 이동
-	printf("\n");
-	printf("madongseok move(0:stay)>>\n");
 	int move;
-	scanf_s("%d", &move);
+	do {
+		printf("madongseok move(0:stay, 1:left)>>\n");
+		printf("\n");
+		scanf_s("%d", &move);
+	} while (move != MOVE_LEFT && move != MOVE_STAY);
+
 	if (move == MOVE_LEFT) {
 		if (m_aggro < AGGRO_MAX) {
 			--mm;
@@ -202,7 +205,7 @@ void actionPhase() { //행동 페이즈
 	}
 	else if (attack == ATK_DONGSEOK) {
 		printf("citizen does nothing\n");
-		printf("zombie attacked madongseok (aggro: %d vs %d, madongseok stamina: %d -> %d)\n",c_aggro,m_aggro,stamina+1,stamina);
+		printf("zombie attacked madongseok (aggro: %d vs %d, madongseok stamina: %d -> %d)\n", c_aggro, m_aggro, stamina + 1, stamina);
 		stamina--;
 		if (stamina == STM_MIN) {
 			printf("GAME OVER! madongseok dead...");
@@ -212,10 +215,13 @@ void actionPhase() { //행동 페이즈
 	}
 
 	// 마동석 행동
-	printf("madongseok action (0. rest, 1. provoke, 2. pull)>>\n");
-	printf("\n");
 	int action;
-	scanf_s("%d", &action);
+	do {
+		printf("madongseok action (0. rest, 1. provoke, 2. pull)>>\n");
+		printf("\n");
+		scanf_s("%d", &action);
+	} while (action != ACTION_REST && action != ACTION_PROVOKE && action != ACTION_PULL);
+
 	if (action == ACTION_REST) {
 		if (m_aggro > AGGRO_MIN) {
 			m_aggro--;
