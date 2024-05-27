@@ -78,7 +78,7 @@ void printTrain() { //열차값 출력
 
 void outro() { //아웃트로
 	if (mc == 0) {
-		printf("SUCCESS!\n탈출 성공!");
+		printf("YOU WIN!");
 		exit(0);
 	}
 	if (mc == mz - 1) {
@@ -171,23 +171,28 @@ void actionPhase() { //행동 페이즈
 	printf("<행동> 페이즈:\n");
 
 	// 시민 행동
-	printf("시민 행동: 시민은 아무것도 하지 않습니다.\n");
-
+	if (mc == 0) {
+		outro();
+	}
+	else {
+		printf("citizen does nothing.\n");
+	}
+	
 	// 좀비 행동
-	printf("좀비 행동: 좀비는 아무도 공격하지 않았습니다.\n");
+	printf("zombie attacked nobody.\n");
 
 	// 마동석 행동
-	printf("마동석 행동 (0: 휴식, 1: 도발, 2: 붙들기)>>\n");
+	printf("madongseok action (0: rest, 1: provoke, 2: pull)>>\n");
 	int action;
 	scanf_s("%d", &action);
 	if (action == ACTION_REST) {
-		printf("마동석이 휴식을 취합니다...\n");
+		printf("madongseok rests.\n");
 	}
 	else if (action == ACTION_PROVOKE) {
-		printf("마동석이 도발합니다...\n");
+		printf("madongseok provokes.\n");
 	}
 	else if (action == ACTION_PULL) {
-		printf("마동석이 좀비를 붙듭니다...\n");
+		printf("madongseok pulls the zombie.\n");
 		m_pull = 1;
 	}
 	else {
@@ -195,6 +200,9 @@ void actionPhase() { //행동 페이즈
 	}
 
 	printf("\n");
+
+	//상태 출력
+	printTrain();
 }
 
 int main(void) {
