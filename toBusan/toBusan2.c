@@ -128,11 +128,11 @@ void movePhase() { //이동 페이즈
 		if (mz - 1 != mc && mz - 1 != mm) {
 			if (c_aggro >= m_aggro) {
 				--mz;
-				printf("zombie : %d -> %d\n",mz+1, mz);
+				printf("zombie : %d -> %d\n", mz + 1, mz);
 			}
 			else {
 				++mz;
-				printf("zombie : %d -> %d\n",mz-1, mz);
+				printf("zombie : %d -> %d\n", mz - 1, mz);
 			}
 		}
 		else {
@@ -159,7 +159,7 @@ void movePhase() { //이동 페이즈
 			m_aggro--;
 		}
 	}
-	printf("madongseok: stay %d(aggrp: %d -> %d, stamina : %d)\n", mm,m_aggro+1, m_aggro, stamina);
+	printf("madongseok: stay %d(aggrp: %d -> %d, stamina : %d)\n", mm, m_aggro + 1, m_aggro, stamina);
 	printf("\n");
 	printf("citizen does nothing.");
 
@@ -177,9 +177,39 @@ void actionPhase() { //행동 페이즈
 	else {
 		printf("citizen does nothing.\n");
 	}
-	
+
 	// 좀비 행동
-	printf("zombie attacked nobody.\n");
+	int attack = ATK_NONE;
+	if (mz - 1 == mc || mz + 1 == mc) {
+		attack = ATK_CITIZEN;
+	}
+	if (mz - 1 == mm || mz + 1 == mm) {
+		if (attack == ATK_CITIZEN) {
+			if (m_aggro > c_aggro) {
+				attack = ATK_DONGSEOK;
+			}
+		}
+		else {
+			attack = ATK_DONGSEOK;
+		}
+	}
+	if (attack == ATK_NONE) {
+		printf("zombie attacked nobody.\n");
+	}
+	else if (attack == ATK_CITIZEN) {
+		printf("zombie attacked the citizen");
+		printf("GAME OVER! citizen dead...");
+		exit(0);
+	}
+	else if (attack == ATK_DONGSEOK) {
+		printf("zombie attacked Madongseok!\n");
+		stamina--;
+		if (stamina == 0) {
+			printf("GAME OVER! madongseok dead...");
+			exit(0);
+		}
+	}
+
 
 	// 마동석 행동
 	printf("madongseok action (0: rest, 1: provoke, 2: pull)>>\n");
