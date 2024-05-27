@@ -30,7 +30,7 @@ int length, prob, stamina;
 int mc, mz, mm, turn;
 int num1, num2;
 int c_aggro, m_aggro;
-int m_pull_success;
+int m_pull;
 
 void intro() { //인트로
 	printf("게임을 시작합니다.\n");
@@ -124,7 +124,7 @@ void movePhase() { //이동 페이즈
 	}
 
 	// 좀비 이동
-	if (turn % 2 == 0 && !m_pull_success) {
+	if (turn % 2 == 0 && !m_pull) {
 		if (mz - 1 != mc && mz - 1 != mm) {
 			if (c_aggro >= m_aggro) {
 				--mz;
@@ -144,7 +144,8 @@ void movePhase() { //이동 페이즈
 	}
 
 	// 마동석 이동
-	printf("마동석 이동 (현재 위치: %d, 1: 왼쪽, 0: 이동 안 함)>>\n", mm);
+	printf("\n");
+	printf("madongseok move(0:stay)>>\n");
 	int move;
 	scanf_s("%d", &move);
 	if (move == MOVE_LEFT) {
@@ -158,7 +159,9 @@ void movePhase() { //이동 페이즈
 			m_aggro--;
 		}
 	}
-	printf("마동석 이동: %s (현재 위치: %d, aggro: %d, stamina: %d)\n", move == MOVE_LEFT ? "왼쪽으로 이동" : "제자리 대기", mm, m_aggro, stamina);
+	printf("madongseok: stay %d(aggrp: %d -> %d, stamina : %d)\n", mm,m_aggro+1, m_aggro, stamina);
+	printf("\n");
+	printf("citizen does nothing.");
 
 	// 상태 출력
 	printTrain();
@@ -185,10 +188,10 @@ void actionPhase() { //행동 페이즈
 	}
 	else if (action == ACTION_PULL) {
 		printf("마동석이 좀비를 붙듭니다...\n");
-		m_pull_success = 1;
+		m_pull = 1;
 	}
 	else {
-		m_pull_success = 0;
+		m_pull = 0;
 	}
 
 	printf("\n");
@@ -205,9 +208,10 @@ int main(void) {
 	num2 = 0;
 	c_aggro = 0;
 	m_aggro = 0;
-	m_pull_success = 0;
+	m_pull = 0;
 
 	while (1) {
+		printTrain();
 		movePhase();
 		actionPhase();
 		turn++;
