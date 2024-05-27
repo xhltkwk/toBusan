@@ -97,7 +97,6 @@ void outro() { //아웃트로
 }
 
 void movePhase() { //이동 페이즈
-	printf("<이동> 페이즈:\n");
 
 	printTrain(); // 열차값 상태 출력
 
@@ -161,14 +160,13 @@ void movePhase() { //이동 페이즈
 	}
 	printf("madongseok: stay %d(aggrp: %d -> %d, stamina : %d)\n", mm, m_aggro + 1, m_aggro, stamina);
 	printf("\n");
-	printf("citizen does nothing.");
+	printf("citizen does nothing.\n");
 
 	// 상태 출력
 	printTrain();
 }
 
 void actionPhase() { //행동 페이즈
-	printf("<행동> 페이즈:\n");
 
 	// 시민 행동
 	if (mc == 0) {
@@ -212,26 +210,26 @@ void actionPhase() { //행동 페이즈
 
 
 	// 마동석 행동
-	printf("madongseok action (0: rest, 1: provoke, 2: pull)>>\n");
+	printf("madongseok action (0: rest, 1: provoke)>>\n");
 	int action;
 	scanf_s("%d", &action);
 	if (action == ACTION_REST) {
-		printf("madongseok rests.\n");
+		if (m_aggro > AGGRO_MIN) {
+			m_aggro--;
+		}
+		if (stamina < STM_MAX) {
+			stamina++;
+		}
+		printf("madongseok rests...\n");
+		printf("madongseok: %d (aggro: %d -> %d, stamina: %d -> %d)\n", mm, m_aggro + 1, m_aggro, stamina - 1, stamina);
 	}
 	else if (action == ACTION_PROVOKE) {
-		printf("madongseok provokes.\n");
-	}
-	else if (action == ACTION_PULL) {
-		printf("madongseok pulls the zombie.\n");
-		m_pull = 1;
-	}
-	else {
-		m_pull = 0;
+		m_aggro = AGGRO_MAX;
+		printf("madongseok provoked zombie...\n");
+		printf("madongseok: %d (aggro: %d -> %d, stamina: %d)\n", mm, AGGRO_MIN, m_aggro, stamina);
 	}
 
-	printf("\n");
-
-	//상태 출력
+	// 상태 출력
 	printTrain();
 }
 
@@ -249,7 +247,6 @@ int main(void) {
 	m_pull = 0;
 
 	while (1) {
-		printTrain();
 		movePhase();
 		actionPhase();
 		turn++;
