@@ -185,7 +185,7 @@ void move_madongseok_phase() { //이동 페이즈 출력 마동석
 		}
 		else
 		{
-			printf("madongseok move %d -> %d (aggro : %d -> %d, stamina : %d)\n", mm - 1, mm, m_aggro - 1, m_aggro, stamina);
+			printf("madongseok move %d -> %d (aggro : %d -> %d, stamina : %d)\n", mm + 1, mm, m_aggro - 1, m_aggro, stamina);
 		}
 	}
 	else if (move == MOVE_STAY)
