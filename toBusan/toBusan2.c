@@ -281,6 +281,8 @@ void m_action_phase() { // 마동석 행동 페이즈
 		scanf_s("%d", &action);
 	} while (action != ACTION_REST && action != ACTION_PROVOKE && action != ACTION_PULL);
 
+	//인접했을 때 조건문 추가 필요
+
 	if (action == ACTION_REST) {
 		if (m_aggro == AGGRO_MIN) {
 			printf("madongseok rests...\n");
@@ -307,12 +309,12 @@ void m_action_phase() { // 마동석 행동 페이즈
 		if (r < (100 - prob)) {
 			m_pull = 1;
 			printf("madongseok pulled zombie... Next turn, it can't move\n");
-			printf("madongseok: %d (aggro: %d -> %d, stamina: %d -> %d", mm, m_aggro - 2,m_aggro-1, stamina + 1, stamina);
+			printf("madongseok: %d (aggro: %d -> %d, stamina: %d -> %d\n", mm, m_aggro - 2,m_aggro-1, stamina + 1, stamina);
 		}
 		else {
 			m_pull = 0;
 			printf("madongseok failed to pull zombie\n");
-			printf("madongseok: %d (aggro: %d -> %d, stamina: %d -> %d", mm, m_aggro - 2,m_aggro-1, stamina + 1, stamina);
+			printf("madongseok: %d (aggro: %d -> %d, stamina: %d -> %d\n", mm, m_aggro - 2,m_aggro-1, stamina + 1, stamina);
 		}
 	}
 }
