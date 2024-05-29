@@ -31,7 +31,7 @@
 int length, prob, stamina;
 int mc, mz, mm, turn;
 int num1, num2;
-int c_aggro, m_aggro;
+int c_aggro = 1, m_aggro = 1;
 int m_pull;
 
 void intro() { //인트로
@@ -98,43 +98,75 @@ void outro() { //아웃트로
 	printf("\n");
 }
 
-void movePhase() { //이동 페이즈
-
-	printTrain(); // 열차값 상태 출력
-
-	// 시민 이동
+void Move_Citizen_Phase() { //이동 페이즈 계산 시민
 	int r = rand() % 100;
 	if (r < (100 - prob)) {
 		--mc;
 		if (c_aggro < AGGRO_MAX) {
-			c_aggro++;
-			printf("citizen: %d -> %d (aggro : %d -> %d)\n", mc + 1, mc, c_aggro - 1, c_aggro);
-		}
-		else if (c_aggro == AGGRO_MAX) {
-			printf("citizen : %d -> %d (aggro ; %d)\n", mc + 1, mc, c_aggro);
+			++c_aggro;
 		}
 	}
 	else {
 		if (c_aggro > AGGRO_MIN) {
-			c_aggro--;
-			printf("citizen : %d -> %d (aggro : %d -> %d)\n", mc + 1, mc, c_aggro - 1, c_aggro);
-		}
-		else {
-			printf("ctizen : %d -> %d (aggro : %d)\n", mc + 1, mc, c_aggro);
+			--c_aggro;
 		}
 	}
+}
 
-	// 좀비 이동
-	if (turn % 2 == 0 && !m_pull) {
+void Move_Zombie_Phase() { //이동 페이즈 계산 좀비
+	if (turn % 2 == 1 && !m_pull) {
 		if (mz - 1 != mc && mz - 1 != mm) {
-			if (c_aggro >= m_aggro) {
+			if (c_aggro > m_aggro) {
 				--mz;
-				printf("zombie : %d -> %d\n", mz + 1, mz);
 			}
 			else {
 				++mz;
-				printf("zombie : %d -> %d\n", mz - 1, mz);
 			}
+		}
+		else {
+			if (c_aggro > m_aggro) {
+				--mz;
+			}
+			else {
+				++mz;
+			}
+		}
+	}
+}
+
+int move;
+void Move_Madongseok_Phase() { //이동 페이즈 계산 마동석
+
+	if (move == MOVE_LEFT) {
+		--mm;
+		if (m_aggro == AGGRO_MAX) { // < 에서 == 로 수정
+			m_aggro = m_aggro;
+		}
+	}
+
+	else {
+		if (m_aggro > AGGRO_MIN) {
+			--m_aggro;
+		}
+	}
+}
+
+void move_citizen_phase() { //이동 페이즈 출력 시민
+
+	if (c_aggro < AGGRO_MAX) {
+		printf("citizen: %d -> %d (aggro : %d -> %d)\n", mc + 1, mc, c_aggro - 1, c_aggro);
+	}
+	else {
+		printf("citizen : %d -> %d (aggro ; %d)\n", mc + 1, mc, c_aggro);
+	}
+}
+
+void move_zombie_phase() { //이동 페이즈 출력 좀비
+	// 좀비 이동
+	if (turn % 2 == 1 && !m_pull) {
+		if (mz - 1 != mc && mz - 1 != mm) {
+
+			printf("zombie : %d -> %d\n", mz + 1, mz);
 		}
 		else {
 			printf("zombie : stay %d \n", mz);
@@ -143,49 +175,65 @@ void movePhase() { //이동 페이즈
 	else {
 		printf("zombie : stay %d\n", mz);
 	}
+}
 
-	// 마동석 이동
-	int move;
+void move_madongseok_phase() { //이동 페이즈 출력 마동석
+
+	if (move == MOVE_LEFT) {
+		if (m_aggro == AGGRO_MAX) { // < 에서 == 로 수정
+			printf("madongseok move %d -> %d (aggro : %d, stamina : %d)\n", mm + 1, mm, m_aggro, stamina);
+		}
+		else
+		{
+			printf("madongseok move %d -> %d (aggro : %d -> %d, stamina : %d)\n", mm - 1, mm, m_aggro - 1, m_aggro, stamina);
+		}
+	}
+	else if (move == MOVE_STAY)
+	{
+		//위에선 어그로가 5를 넘어가는 일이 생겨서 AGGRO_MAX를 신경썼지만
+		/*
+		여기에선 마동석이 가만히 있을때 이기 때문에 어그로가
+		0 밑으로 출력되지 않게 프린트 해야함
+		*/
+		printf("madongseok move %d -> %d (aggro : %d, stamina : %d)\n", mm, mm, m_aggro, stamina);
+
+	}
+}
+
+void movePhase() {// 마동석 이동
+
+	int i, j = 0;
 	do {
 		if (mm == mz + 1) {
 			printf("madongseok move(0: stay)\n");
+			i = 1;
 		}
 		else {
 			printf("madongseok move(0:stay, 1:left)\n");
+			i = 2;
 		}
 		printf("\n");
 		scanf_s("%d", &move);
-	} while (move != MOVE_LEFT && move != MOVE_STAY);
+		if (move == MOVE_STAY && i == 1) {
+			j = 1;
+		}
+		else if (move == MOVE_STAY || move == MOVE_LEFT) {
+			if (i == 2) {
+				j = 1;
+			}
+		}
+	} while (j != 1);
 
-	if (move == MOVE_LEFT) {
-		if (m_aggro < AGGRO_MAX) {
-			--mm;
-			m_aggro++;
-		}
-	}
-	else {
-		if (m_aggro > AGGRO_MIN) {
-			m_aggro--;
-		}
-	}
-	printf("madongseok: stay %d(aggro: %d -> %d, stamina : %d)\n", mm, m_aggro + 1, m_aggro, stamina);
 	printf("\n");
-
-	// 상태 출력
-	printTrain();
 }
 
-void actionPhase() { //행동 페이즈
-
-	// 시민 행동
+void c_action_phase() { //행동 페이즈 시민 
 	if (mc == 0) {
 		outro();
 	}
-	else {
-		printf("citizen does nothing.\n");
-	}
+}
 
-	// 좀비 행동
+void z_action_phase() { // 좀비 행동 페이즈
 	int attack = ATK_NONE;
 	if (mz - 1 == mc || mz + 1 == mc) {
 		attack = ATK_CITIZEN;
@@ -210,26 +258,22 @@ void actionPhase() { //행동 페이즈
 		exit(0);
 	}
 	else if (attack == ATK_DONGSEOK) {
+		--stamina;
 		printf("citizen does nothing\n");
-		printf("zombie attacked madongseok (aggro: %d vs %d, madongseok stamina: %d -> %d)\n", c_aggro, m_aggro, stamina + 1, stamina);
-		stamina--;
+		printf("zombie attacked madongseok (aggro: %d, madongseok stamina: %d -> %d)\n", m_aggro, stamina + 1, stamina);
 		if (stamina == STM_MIN) {
 			printf("GAME OVER! madongseok dead...");
 			exit(0);
-
 		}
 	}
-	
-	if (mm == mz + 1) { //인접할때
-		
-
+	else if (mc == mz - 1 && mm - 1 == mz) {
+		--stamina;
+		printf("citizen does nothing\n");
+		printf("zombie attacked madongseok (aggro: %d vs %d, madongseok stamina: %d -> %d)\n", c_aggro, m_aggro, stamina + 1, stamina);
 	}
-	else { //인접하지않을때
+}
 
-	}
-
-
-	// 마동석 행동
+void m_action_phase() { // 마동석 행동 페이즈
 	int action;
 	do {
 		printf("madongseok action (0. rest, 1. provoke, 2. pull)>>\n");
@@ -260,30 +304,17 @@ void actionPhase() { //행동 페이즈
 		m_aggro += 2;
 		stamina--;
 		int r = rand() % 100;
-			if (r < (100 - prob)) {
-				m_pull = 1;
-				printf("madongseok pulled zombie... Next turn, it can't move\n");
-				printf("madongseok: %d (aggro: %d -> %d, stamina: %d -> %d", mm, m_aggro - 2, stamina + 1, stamina);
-			}
-			else {
-				m_pull = 0;
-				printf("madongseok failed to pull zombie\n");
-				printf("madongseok: %d (aggro: %d -> %d, stamina: %d -> %d", mm, m_aggro - 2, stamina + 1, stamina);
-			}
+		if (r < (100 - prob)) {
+			m_pull = 1;
+			printf("madongseok pulled zombie... Next turn, it can't move\n");
+			printf("madongseok: %d (aggro: %d -> %d, stamina: %d -> %d", mm, m_aggro - 2,m_aggro-1, stamina + 1, stamina);
+		}
+		else {
+			m_pull = 0;
+			printf("madongseok failed to pull zombie\n");
+			printf("madongseok: %d (aggro: %d -> %d, stamina: %d -> %d", mm, m_aggro - 2,m_aggro-1, stamina + 1, stamina);
+		}
 	}
-
-	//인접 했을떄
-	if (mm == mz - 1)
-	{
-
-	}
-	else //인접 안했을떄
-	{
-
-	}
-
-	// 상태 출력
-	printTrain();
 }
 
 int main(void) {
@@ -295,14 +326,26 @@ int main(void) {
 	turn = 0;
 	num1 = 0;
 	num2 = 0;
-	c_aggro = 0;
-	m_aggro = 0;
+	c_aggro = 1;
+	m_aggro = 1;
 	m_pull = 0;
-
+	printTrain();
 	while (1) {
-		movePhase();
-		actionPhase();
-		turn++;
+		++turn;
+		//계산 시민 좀비 마동석 
+		Move_Citizen_Phase(); //시민 계산
+		Move_Zombie_Phase(); //좀비 계산
+		printTrain(); // 열차 출력
+		move_citizen_phase(); //시민 출력
+		move_zombie_phase(); //좀비 출력
+		movePhase(); // 마동석 입력
+		Move_Madongseok_Phase(); // 마동석 계산
+		printTrain(); // 열차출력
+		move_madongseok_phase(); //마동석 출력
+		c_action_phase(); // 시민 행동
+		z_action_phase(); // 좀비 행동
+		m_action_phase(); // 마동석 행동
+
 	}
 	return 0;
 }
