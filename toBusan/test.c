@@ -345,65 +345,65 @@
 //////////	return 0;
 //////////}
 //////////
-if (mm == mz + 1) { //인접했을때
-	do {
-		printf("madongseok action (0. rest, 1. provoke, 2. pull)>>\n");
-		printf("\n");
-		scanf_s("%d", &action);
-	} while (action != ACTION_REST && action != ACTION_PROVOKE && action != ACTION_PULL);
-
-	if (action == ACTION_REST) { //휴식
-		if (m_aggro == AGGRO_MIN) { //마동석 어그로=0일떄
-			printf("madongseok rests...\n")
-			printf("madongseok: %d (aggro: %d -> %d,stamina: %d -> %d)\n", mm, m_aggro + 1, m_aggro, stamina - 1, stamina);
-		}
-		else {
-			--m_aggro;
-		}if (stamina < STM_MAX) {
-			++stamina;
-		}
-	}
-	else if (action == ACTION_PROVOKE){ //도발
-		int p_aggro = m_aggro;
-		m_aggro = AGGRO_MAX;
-		printf("madongseok proveoked zombie...\n");
-		printf("madongsoek: %d (aggro: %d -> %d, stamina: %d)\n", mm, p_aggro, m_aggro, stamina);
-	}
-	else { // action == ACTION_PULL
-		m_aggro += 2;
-		--stamina;
-		int r = rand() % 100;
-		if (r < (100 - prob)) {
-			m_pull = 1;
-			printf("madongseok pulled zombie... Next turn, it can't move\n");
-			printf("madongseok: %d (aggro: %d -> %d, stamina: %d -> %d)", mm, m_aggro - 2, m_aggro - 1, stamina + 1, stamina);
-		}
-		else {
-			m_pull = 0;
-			printf("madongseok failed to pull zombie\n");
-			printf("madongseok: %d (aggro: %d -> %d, stamina: %d -> %d)\n", mm, m_aggro - 2, m_aggro - 1, stamina + 1, stamina);
-		}
-	}
-}
-else { //인접하지 않았을때
-	do {
-		printf("madongseok action (0. rest, 1. provoke)>>\n");
-		printf("\n");
-		scanf_s("%d", &action);
-	} while (action != ACTION_REST && action != ACTION_PROVOKE);
-
-	if (action == ACTION_REST){
-		--m_aggro;
-		if (stamina < STM_MAX) {
-		++stamina;
-		printf("madongseok rests...\n");
-		printf("madongseok: %d (aggro: %d -> %d,stamina: %d -> %d)\n", mm, m_aggro + 1, m_aggro, stamina - 1, stamina);
-		}
-	}
-	else { // action == ACTION_PROVOKE
-		int p_aggro = m_aggro;
-		m_aggro = AGGRO_MAX;
-		printf("madongseok proveoked zombie...\n");
-		printf("madongsoek: %d (aggro: %d -> %d, stamina: %d)\n", mm, p_aggro, m_aggro, stamina);
-	}
-}
+//if (mm == mz + 1) { //인접했을때
+//	do {
+//		printf("madongseok action (0. rest, 1. provoke, 2. pull)>>\n");
+//		printf("\n");
+//		scanf_s("%d", &action);
+//	} while (action != ACTION_REST && action != ACTION_PROVOKE && action != ACTION_PULL);
+//
+//	if (action == ACTION_REST) { //휴식
+//		if (m_aggro == AGGRO_MIN) { //마동석 어그로=0일떄
+//			printf("madongseok rests...\n")
+//			printf("madongseok: %d (aggro: %d -> %d,stamina: %d -> %d)\n", mm, m_aggro + 1, m_aggro, stamina - 1, stamina);
+//		}
+//		else {
+//			--m_aggro;
+//		}if (stamina < STM_MAX) {
+//			++stamina;
+//		}
+//	}
+//	else if (action == ACTION_PROVOKE){ //도발
+//		int p_aggro = m_aggro;
+//		m_aggro = AGGRO_MAX;
+//		printf("madongseok proveoked zombie...\n");
+//		printf("madongsoek: %d (aggro: %d -> %d, stamina: %d)\n", mm, p_aggro, m_aggro, stamina);
+//	}
+//	else { // action == ACTION_PULL
+//		m_aggro += 2;
+//		--stamina;
+//		int r = rand() % 100;
+//		if (r < (100 - prob)) {
+//			m_pull = 1;
+//			printf("madongseok pulled zombie... Next turn, it can't move\n");
+//			printf("madongseok: %d (aggro: %d -> %d, stamina: %d -> %d)", mm, m_aggro - 2, m_aggro - 1, stamina + 1, stamina);
+//		}
+//		else {
+//			m_pull = 0;
+//			printf("madongseok failed to pull zombie\n");
+//			printf("madongseok: %d (aggro: %d -> %d, stamina: %d -> %d)\n", mm, m_aggro - 2, m_aggro - 1, stamina + 1, stamina);
+//		}
+//	}
+//}
+//else { //인접하지 않았을때
+//	do {
+//		printf("madongseok action (0. rest, 1. provoke)>>\n");
+//		printf("\n");
+//		scanf_s("%d", &action);
+//	} while (action != ACTION_REST && action != ACTION_PROVOKE);
+//
+//	if (action == ACTION_REST){
+//		--m_aggro;
+//		if (stamina < STM_MAX) {
+//		++stamina;
+//		printf("madongseok rests...\n");
+//		printf("madongseok: %d (aggro: %d -> %d,stamina: %d -> %d)\n", mm, m_aggro + 1, m_aggro, stamina - 1, stamina);
+//		}
+//	}
+//	else { // action == ACTION_PROVOKE
+//		int p_aggro = m_aggro;
+//		m_aggro = AGGRO_MAX;
+//		printf("madongseok proveoked zombie...\n");
+//		printf("madongsoek: %d (aggro: %d -> %d, stamina: %d)\n", mm, p_aggro, m_aggro, stamina);
+//	}
+//}
