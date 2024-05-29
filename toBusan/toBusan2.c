@@ -389,8 +389,7 @@ void move_zombie_phase() { //이동 페이즈 출력 좀비
 
 		while (1) {
 			++turn;
-			printf("%d\n", turn);
-			//계산 시민 좀비 마동석 
+			printf("\n%dturn\n\n", turn);
 			Move_Citizen_Phase(); //시민 계산
 			Move_Zombie_Phase(); //좀비 계산
 			printTrain(); // 열차 출력
