@@ -1,4 +1,5 @@
-// 1-1: 필요한 헤더 파일과 상수 정의
+//2-1.정리 ~ 2-4.<행동>:예외 처리까지 코드 작성
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <windows.h>
@@ -6,7 +7,7 @@
 // 파라미터
 #define LEN_MIN 15 // 열차 길이
 #define LEN_MAX 50
-#define STM_MIN 0 // 마동석 체력
+#define STM_MIN 0 // 마동석 체력	
 #define STM_MAX 5
 #define PROB_MIN 10 // 움직일 확률
 #define PROB_MAX 90
@@ -27,14 +28,14 @@
 #define ACTION_PROVOKE 1 
 #define ACTION_PULL 2
 
-// 1-2: 전역 변수 선언
+// 전역 변수 선언
 int length, prob, stamina;
 int mc, mz, mm, turn;
 int num1, num2;
 int c_aggro = 1, m_aggro = 1;
 int m_pull;
 
-// 1-3: 게임 시작을 위한 초기 설정 함수
+// 게임 시작을 위한 초기 설정 함수
 void intro() { //인트로
 	printf("게임을 시작합니다.\n");
 	printf("\n좀비에게서 탈출하세요!\n");
@@ -61,7 +62,7 @@ void intro() { //인트로
 	printf("\n");
 }
 
-// 1-4: 열차 상태를 출력하는 함수
+// 열차 상태를 출력하는 함수
 void printTrain() { //열차값 출력
 	for (int j = 0; j < 2; j++) {
 		if (j == 1) {
@@ -80,7 +81,7 @@ void printTrain() { //열차값 출력
 	printf("\n");
 }
 
-// 1-5: 게임 종료 시 결과를 출력하는 함수
+// 게임 종료 시 결과를 출력하는 함수
 void outro() { //아웃트로
 	if (mc == 0) {
 		printf("YOU WIN!");
@@ -105,7 +106,7 @@ void outro() { //아웃트로
 	printf("\n");
 }
 
-// 1-6: 시민의 이동 계산 함수
+// 시민의 이동 계산 함수
 void Move_Citizen_Phase() { //이동 페이즈 계산 시민
 	int r = rand() % 100;
 	if (r < (100 - prob)) {
@@ -116,7 +117,7 @@ void Move_Citizen_Phase() { //이동 페이즈 계산 시민
 	}
 }
 
-// 1-7: 좀비의 이동 계산 함수
+// 좀비의 이동 계산 함수
 void Move_Zombie_Phase() { //이동 좀비 계산
 	if (turn % 2 == 1 && !m_pull) {
 		if (mm == mz + 1) { //인접 O
@@ -140,7 +141,7 @@ void Move_Zombie_Phase() { //이동 좀비 계산
 
 int move; //마동석 이동 변수
 
-// 1-8: 마동석의 이동 계산 함수
+// 마동석의 이동 계산 함수
 void Move_Madongseok_Phase() { //이동 페이즈 계산 마동석
 
 	if (move == MOVE_LEFT) {
@@ -163,7 +164,7 @@ void Move_Madongseok_Phase() { //이동 페이즈 계산 마동석
 	}
 }
 
-// 1-9: 시민의 이동 결과 출력 함수
+// 시민의 이동 결과 출력 함수
 void move_citizen_phase() { //이동 페이즈 출력 시민
 
 	if (c_aggro < AGGRO_MAX) {
@@ -174,7 +175,7 @@ void move_citizen_phase() { //이동 페이즈 출력 시민
 	}
 }
 
-// 1-10: 좀비의 이동 결과 출력 함수
+// 좀비의 이동 결과 출력 함수
 void move_zombie_phase() { //이동 페이즈 출력 좀비
 	// 좀비 이동
 	if (turn % 2 == 1 && !m_pull) {  //무조건 움직이는 턴 , 못움직이는건 마동석이랑 인접해있는 상태에서 마동석쪽으로 움직이려 할때만
@@ -202,7 +203,7 @@ void move_zombie_phase() { //이동 페이즈 출력 좀비
 	}
 }
 
-// 1-11: 마동석의 이동 결과 출력 함수
+// 마동석의 이동 결과 출력 함수
 void move_madongseok_phase() { //이동 페이즈 출력 마동석
 
 	if (move == MOVE_LEFT) {
@@ -229,7 +230,7 @@ void move_madongseok_phase() { //이동 페이즈 출력 마동석
 	}
 }
 
-// 1-12: 마동석의 이동 입력 함수
+// 마동석의 이동 입력 함수
 void movePhase() {// 마동석 이동
 	int i, j = 0;
 	do {
@@ -256,14 +257,14 @@ void movePhase() {// 마동석 이동
 	printf("\n");
 }
 
-// 1-13: 시민의 행동 페이즈 함수
+// 시민의 행동 페이즈 함수
 void c_action_phase() { //행동 페이즈 시민 
 	if (mc == 0) {
 		outro();
 	}
 }
 
-// 1-14: 좀비의 행동 페이즈 함수
+// 좀비의 행동 페이즈 함수
 void z_action_phase() { // 좀비 행동 페이즈
 	int attack = ATK_NONE;
 	if (mz - 1 == mc || mz + 1 == mc) {
@@ -307,7 +308,7 @@ void z_action_phase() { // 좀비 행동 페이즈
 	}
 }
 
-// 1-15: 마동석의 행동 페이즈 함수
+// 마동석의 행동 페이즈 함수
 void m_action_phase() { // 마동석 행동 페이즈
 	int action;
 	if (mm == mz + 1) { //인접했을때
@@ -386,7 +387,7 @@ void m_action_phase() { // 마동석 행동 페이즈
 	}
 }
 
-// 1-16: 메인 함수
+// 메인 함수
 int main(void) {
 	intro();
 	srand(1);
